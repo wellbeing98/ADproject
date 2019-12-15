@@ -1,4 +1,3 @@
-
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
@@ -34,7 +33,11 @@ class SeoulMetro(QWidget):
         self.functionBtn.clicked.connect(self.functionEvent)
 
         #없으니까 에러 남
-        self.line= QLine()
+        self.line1= QLine()
+        self.line2 = QLine()
+        self.line3 = QLine()
+        self.line4 = QLine()
+
 
         # End
         # timeLabel time표시
@@ -168,7 +171,7 @@ class SeoulMetro(QWidget):
         self.setWindowTitle("Seoul metro find")
 
     # FindClicked가 눌렸을 때 발생하는 이벤트
-    # 입력한 역을 이용해 소요시간과 환승역을 구함 
+    # 입력한 역을 이용해 소요시간과 환승역을 구함
     def findEvent(self):
         self.startString = self.strStart.text()
         self.endString = self.strEnd.text()
@@ -182,28 +185,51 @@ class SeoulMetro(QWidget):
 
         self.midlleStation= self.midlle.GetTransit_station()
 
-        if len(midlleStation) == 1:
-            self.spaceNull4.setText(midlleStation[0])
-        elif len(midlleStation) == 2:
-            self.spaceNull2.setText(midlleStation[0])
-            self.spaceNull6.setText(midlleStation[1])
-        elif len(midlleStation) == 3:
-            self.spaceNull2.setText(midlleStation[0])
-            self.spaceNull4.setText(midlleStation[1])
-            self.spaceNull6.setText(midlleStation[2])
+        if len(self.midlleStation) == 1:
+            self.spaceNull4.setText(self.midlleStation[0])
+            effect = QGraphicsOpacityEffect(self.spaceNull4)
+            effect.setOpacity(100)
+            self.spaceNull4.setGraphicsEffect(effect)
+
+        elif len(self.midlleStation) == 2:
+            self.spaceNull2.setText(self.midlleStation[0])
+            effect = QGraphicsOpacityEffect(self.spaceNull2)
+            effect.setOpacity(100)
+            self.spaceNull2.setGraphicsEffect(effect)
+
+            self.spaceNull6.setText(self.midlleStation[1])
+            effect = QGraphicsOpacityEffect(self.spaceNull6)
+            effect.setOpacity(100)
+            self.spaceNull6.setGraphicsEffect(effect)
+
+        elif len(self.midlleStation) == 3:
+            self.spaceNull2.setText(self.midlleStation[0])
+            effect = QGraphicsOpacityEffect(self.spaceNull2)
+            effect.setOpacity(100)
+            self.spaceNull2.setGraphicsEffect(effect)
+
+            self.spaceNull4.setText(self.midlleStation[1])
+            effect = QGraphicsOpacityEffect(self.spaceNull4)
+            effect.setOpacity(100)
+            self.spaceNull4.setGraphicsEffect(effect)
+
+            self.spaceNull6.setText(self.midlleStation[2])
+            effect = QGraphicsOpacityEffect(self.spaceNull6)
+            effect.setOpacity(100)
+            self.spaceNull6.setGraphicsEffect(effect)
 
     # 역에서 역 사이 구간의 좌표를 QLine으로 받음
     def functionEvent(self):
         # 환승역의 개수에 따라 선을 그려야할 구간 설정
         self.midlleLine = self.midlle.GetStation_line()
 
-        if len(midlleLine) == 1:
+        if len(self.midlleLine) == 1:
             self.line1 = QLine(QPoint(self.fstBtn.x()+ 10, self.fstBtn.y()+ 10),
                 QPoint(self.spaceNull4.x()+ 10, self.spaceNull4.y()+ 10))
             self.line2 = QLine(QPoint(self.spaceNull4.x()+ 10, self.spaceNull4.y()+ 10),
                 QPoint(self.endBtn.x()+ 10, self.endBtn.y()+ 10))
 
-        elif len(midlleLine) == 2:
+        elif len(self.midlleLine) == 2:
             self.line1 = QLine(QPoint(self.fstBtn.x()+ 10, self.fstBtn.y()+ 10),
                 QPoint(self.spaceNull2.x()+ 10, self.spaceNull2.y()+ 10))
             self.line2 = QLine(QPoint(self.spaceNull2.x()+ 10, self.spaceNull2.y()+ 10),
@@ -211,7 +237,7 @@ class SeoulMetro(QWidget):
             self.line3 = QLine(QPoint(self.spaceNull6.x()+ 10, self.spaceNull6.y()+ 10),
                 QPoint(self.endBtn.x()+ 10, self.endBtn.y()+ 10))
 
-        elif len(midlleLine) == 3:
+        elif len(self.midlleLine) == 3:
             self.line1 = QLine(QPoint(self.fstBtn.x()+ 10, self.fstBtn.y()+ 10),
                 QPoint(self.spaceNull2.x()+ 10, self.spaceNull2.y()+ 10))
             self.line2 = QLine(QPoint(self.spaceNull2.x()+ 10, self.spaceNull2.y()+ 10),
@@ -224,52 +250,66 @@ class SeoulMetro(QWidget):
         self.update()
 
     # FunctionEvent가 눌렸을 때 QLine에 호선에 맞는 선을 그림
+    '''
     def paintEvent(self, event):
-        if not self.line1.isNull():
-            painter = QPainter(self)
-            pen = QPen(Qt.red, 3)
-            painter.setPen(pen)
-            painter.drawLine(self.line1)
 
-        if not self.line2.isNull():
-            painter = QPainter(self)
-            pen = QPen(Qt.red, 3)
-            painter.setPen(pen)
-            painter.drawLine(self.line2)
+        if len(self.midlleLine) == 1:
+            if not self.line1.isNull():
+                painter1 = QPainter(self)
+                pen1 = QPen(self.selectPen[int(self.midlleLine2[0])], 3)
+                painter1.setPen(pen1)
+                painter1.drawLine(self.line1)
 
-        if not self.line3.isNull():
-            painter = QPainter(self)
-            pen = QPen(Qt.red, 3)
-            painter.setPen(pen)
-            painter.drawLine(self.line3)
+            if not self.line2.isNull():
+                painter2 = QPainter(self)
+                pen2 = QPen(Qt.red, 3)
+                painter2.setPen(pen2)
+                painter2.drawLine(self.line2)
 
-        if not self.line4.isNull():
-            painter = QPainter(self)
-            pen = QPen(Qt.red, 3)
-            painter.setPen(pen)
-            painter.drawLine(self.line4)
+        elif len(self.midlleLine) == 2:
+            if not self.line1.isNull():
+                painter1 = QPainter(self)
+                pen1 = QPen(self.selectPen[int(self.midlleLine2[0])], 3)
+                painter1.setPen(pen1)
+                painter1.drawLine(self.line1)
 
-    def selectPen(self, lines):
-        if lines== '1':
-            return Qt.red
-        elif lines== '2':
-            return Qt.green
-        elif lines== '3':
-            return Qt.orange
-        elif lines== '4':
-            return Qt.blue
-        elif lines== '5':
-            return Qt.green
-        elif lines== '6':
-            return Qt.green
-        elif lines== '7':
-            return Qt.black
-        elif lines== '8':
-            return Qt.green
-        elif lines== '9':
-            return Qt.green
-        elif lines== '분당선':
-            return Qt.yellow
+            if not self.line2.isNull():
+                painter2 = QPainter(self)
+                pen2 = QPen(Qt.red, 3)
+                painter2.setPen(pen2)
+                painter2.drawLine(self.line2)
+
+            if not self.line3.isNull():
+                painter3 = QPainter(self)
+                pen3 = QPen(Qt.red, 3)
+                painter3.setPen(pen3)
+                painter3.drawLine(self.line3)
+
+        elif len(self.midlleLine) == 3:
+            if not self.line1.isNull():
+                painter1 = QPainter(self)
+                pen1 = QPen(self.selectPen[int(self.midlleLine2[0])], 3)
+                painter1.setPen(pen1)
+                painter1.drawLine(self.line1)
+
+            if not self.line2.isNull():
+                painter2 = QPainter(self)
+                pen2 = QPen(Qt.red, 3)
+                painter2.setPen(pen2)
+                painter2.drawLine(self.line2)
+
+            if not self.line3.isNull():
+                painter3 = QPainter(self)
+                pen3 = QPen(Qt.red, 3)
+                painter3.setPen(pen3)
+                painter3.drawLine(self.line3)
+
+            if not self.line4.isNull():
+                painter4 = QPainter(self)
+                pen4 = QPen(Qt.red, 3)
+                painter4.setPen(pen4)
+                painter4.drawLine(self.line4)
+        '''
 
 if __name__ == '__main__':
     import sys
