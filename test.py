@@ -249,6 +249,28 @@ class SeoulMetro(QWidget):
             painter.setPen(pen)
             painter.drawLine(self.line4)
 
+    def selectPen(self, lines):
+        if lines== '1':
+            return Qt.red
+        elif lines== '2':
+            return Qt.green
+        elif lines== '3':
+            return Qt.orange
+        elif lines== '4':
+            return Qt.blue
+        elif lines== '5':
+            return Qt.green
+        elif lines== '6':
+            return Qt.green
+        elif lines== '7':
+            return Qt.black
+        elif lines== '8':
+            return Qt.green
+        elif lines== '9':
+            return Qt.green
+        elif lines== '분당선':
+            return Qt.yellow
+
 if __name__ == '__main__':
     import sys
 
