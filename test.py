@@ -271,7 +271,7 @@ class SeoulMetro(QWidget):
         self.update()
 
     # FunctionEvent가 눌렸을 때 QLine에 호선에 맞는 선을 그림
-    '''
+
     def paintEvent(self, event):
         painter = QPainter(self)
         #painter.begin(self)
@@ -279,12 +279,45 @@ class SeoulMetro(QWidget):
         #painter.end()
 
     def draw_middleLine(self, painter):
-        while self.i< len(self.midlleLine):
-            pen = QPen(QColor(self.dict[str(self.midlleLine[self.i])]), 3)
+
+        if not self.line1.isNull():
+            pen = QPen(QColor(self.dict[str(self.midlleLine[0])]), 3)
             painter.setPen(pen)
             painter.drawLine(self.line1)
-            self.i += 1
-    '''
+
+        if not self.line2.isNull():
+            pen = QPen(QColor(self.dict[str(self.midlleLine[1])]), 3)
+            painter.setPen(pen)
+            painter.drawLine(self.line2)
+
+        if not self.line3.isNull():
+            pen = QPen(QColor(self.dict[str(self.midlleLine[2])]), 3)
+            painter.setPen(pen)
+            painter.drawLine(self.line3)
+
+        if not self.line4.isNull():
+            pen = QPen(QColor(self.dict[str(self.midlleLine[3])]), 3)
+            painter.setPen(pen)
+            painter.drawLine(self.line4)
+
+
+        '''
+        if len(self.midlleLine) == 1:
+            pen = QPen(QColor(self.dict[str(self.midlleLine[0])]), 3)
+            painter.setPen(pen)
+            painter.drawLine(self.line1)
+        elif len(self.midlleLine) == 2:
+            pen = QPen(QColor(self.dict[str(self.midlleLine[0])]), 3)
+            painter.setPen(pen)
+            painter.drawLine(self.line1)
+
+            pen = QPen(QColor(self.dict[str(self.midlleLine[1])]), 3)
+            painter.setPen(pen)
+            painter.drawLine(self.line1)
+        '''
+
+
+
 
     '''
     def paintEvent(self, event):
@@ -348,6 +381,46 @@ class SeoulMetro(QWidget):
     '''
 
     def resetEvent(self):
+        self.line1 = QLine()
+        self.line2 = QLine()
+        self.line3 = QLine()
+        self.line4 = QLine()
+
+        self.fstBtn.setText("fst")
+        self.fstBtn.setText("end")
+
+        self.spaceNull2.setText("")
+        self.spaceNull4.setText("")
+        self.spaceNull6.setText("")
+
+        effect = QGraphicsOpacityEffect(self.spaceNull1)
+        effect.setOpacity(0)
+        self.spaceNull1.setGraphicsEffect(effect)
+
+        effect = QGraphicsOpacityEffect(self.spaceNull2)
+        effect.setOpacity(0)
+        self.spaceNull2.setGraphicsEffect(effect)
+
+        effect = QGraphicsOpacityEffect(self.spaceNull3)
+        effect.setOpacity(0)
+        self.spaceNull3.setGraphicsEffect(effect)
+
+        effect = QGraphicsOpacityEffect(self.spaceNull4)
+        effect.setOpacity(0)
+        self.spaceNull4.setGraphicsEffect(effect)
+
+        effect = QGraphicsOpacityEffect(self.spaceNull5)
+        effect.setOpacity(0)
+        self.spaceNull5.setGraphicsEffect(effect)
+
+        effect = QGraphicsOpacityEffect(self.spaceNull6)
+        effect.setOpacity(0)
+        self.spaceNull6.setGraphicsEffect(effect)
+
+        effect = QGraphicsOpacityEffect(self.spaceNull7)
+        effect.setOpacity(0)
+        self.spaceNull7.setGraphicsEffect(effect)
+
         pass
 
 
