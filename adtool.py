@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
-from adporject import *
+from adproject import *
 
 class SeoulMetro(QWidget):
 
@@ -188,54 +188,57 @@ class SeoulMetro(QWidget):
         self.fstString = self.strStart.text()
         self.finalString = self.strEnd.text()
 
-        self.middle = Gettime_station_history(self.fstString, self.finalString)
-
-        self.fstBtn.setText(self.fstString)
-        self.finalBtn.setText(self.finalString)
-
-        self.middle = Gettime_station_history(self.fstString, self.finalString)
-
-        self.strTime.setText(str(self.middle.Gettime()))
-        self.recentStatus.setText(self.finalString+ "의 지명 유래\n"+ (self.middle.Gethistory()))
-
-        self.middleStation= self.middle.GetTransit_station()
-
-        #환승역이 한 개인 경우
-        if len(self.middleStation) == 1:
-            self.spaceNull4.setText(self.middleStation[0])
-            effect = QGraphicsOpacityEffect(self.spaceNull4)
-            effect.setOpacity(100)
-            self.spaceNull4.setGraphicsEffect(effect)
-
-        elif len(self.middleStation) == 2:
-            self.spaceNull2.setText(self.middleStation[0])
-            effect = QGraphicsOpacityEffect(self.spaceNull2)
-            effect.setOpacity(100)
-            self.spaceNull2.setGraphicsEffect(effect)
-
-            self.spaceNull6.setText(self.middleStation[1])
-            effect = QGraphicsOpacityEffect(self.spaceNull6)
-            effect.setOpacity(100)
-            self.spaceNull6.setGraphicsEffect(effect)
-
-        elif len(self.middleStation) == 3:
-            self.spaceNull2.setText(self.middleStation[0])
-            effect = QGraphicsOpacityEffect(self.spaceNull2)
-            effect.setOpacity(100)
-            self.spaceNull2.setGraphicsEffect(effect)
-
-            self.spaceNull4.setText(self.middleStation[1])
-            effect = QGraphicsOpacityEffect(self.spaceNull4)
-            effect.setOpacity(100)
-            self.spaceNull4.setGraphicsEffect(effect)
-
-            self.spaceNull6.setText(self.middleStation[2])
-            effect = QGraphicsOpacityEffect(self.spaceNull6)
-            effect.setOpacity(100)
-            self.spaceNull6.setGraphicsEffect(effect)
-
         self.strStart.setText("")
         self.strEnd.setText("")
+
+        try:
+            self.middle = Gettime_station_history(self.fstString, self.finalString)
+
+            self.fstBtn.setText(self.fstString)
+            self.finalBtn.setText(self.finalString)
+
+            self.middle = Gettime_station_history(self.fstString, self.finalString)
+
+            self.strTime.setText(str(self.middle.Gettime()))
+            self.recentStatus.setText(self.finalString+ "의 지명 유래\n "+ (self.middle.Gethistory()))
+
+            self.middleStation= self.middle.GetTransit_station()
+
+            #환승역이 한 개인 경우
+            if len(self.middleStation) == 1:
+                self.spaceNull4.setText(self.middleStation[0])
+                effect = QGraphicsOpacityEffect(self.spaceNull4)
+                effect.setOpacity(100)
+                self.spaceNull4.setGraphicsEffect(effect)
+
+            elif len(self.middleStation) == 2:
+                self.spaceNull2.setText(self.middleStation[0])
+                effect = QGraphicsOpacityEffect(self.spaceNull2)
+                effect.setOpacity(100)
+                self.spaceNull2.setGraphicsEffect(effect)
+
+                self.spaceNull6.setText(self.middleStation[1])
+                effect = QGraphicsOpacityEffect(self.spaceNull6)
+                effect.setOpacity(100)
+                self.spaceNull6.setGraphicsEffect(effect)
+
+            elif len(self.middleStation) == 3:
+                self.spaceNull2.setText(self.middleStation[0])
+                effect = QGraphicsOpacityEffect(self.spaceNull2)
+                effect.setOpacity(100)
+                self.spaceNull2.setGraphicsEffect(effect)
+
+                self.spaceNull4.setText(self.middleStation[1])
+                effect = QGraphicsOpacityEffect(self.spaceNull4)
+                effect.setOpacity(100)
+                self.spaceNull4.setGraphicsEffect(effect)
+
+                self.spaceNull6.setText(self.middleStation[2])
+                effect = QGraphicsOpacityEffect(self.spaceNull6)
+                effect.setOpacity(100)
+                self.spaceNull6.setGraphicsEffect(effect)
+        except :
+            self.recentStatus.setText("올바른 역정보를 입력하세요")
 
     # 역에서 역 사이 구간의 좌표를 QLine으로 받음
     def drawEvent(self):
